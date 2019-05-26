@@ -1,9 +1,12 @@
 <template>
   <div class="container">
     <hero
+      class='hero'
       v-for='section in sections'
-      v-bind:key='section.key'
-      v-bind:section='section'
+      :key='section.id'
+      :section='section'
+      :images='images'
+      :length='length'
     >
     </hero>
   </div>
@@ -14,14 +17,22 @@ import Hero from '../components/Home/Hero';
 
 export default {
   name: 'Home',
-  components: { hero: Hero },
-  props: ['title', 'source'],
+  components: { Hero },
+  computed: {
+    images() {
+      const allFiles = require.context('../assets/', false, /\.(png|jpe?g|svg)$/);
+      const images = {};
+      allFiles.keys().map((item) => { images[item.replace('./', '')] = allFiles(item); }); // eslint-disable-line array-callback-return
+      return images;
+    },
+    length() { return this.sections.length; },
+  },
   data() {
     return {
       sections: [
-        { key: 1, title: 'Muaythai', source: 'muaythai' },
-        { key: 2, title: 'Muaythai', source: '' },
-        { key: 3, title: 'Muaythai', source: '' },
+        { id: 1, name: 'muaythai', source: 'muaythai.jpg' },
+        { id: 2, name: 'landscape', source: 'landscape.jpg' },
+        { id: 3, name: 'animals', source: 'animals.jpg' },
       ],
     };
   },
@@ -30,8 +41,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container{
-  background-color: blue;
+.container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: proximity;
+  scroll-snap-points-y: repeat(100%);
+  scroll-snap-type: y proximity;
+}
+.hero {
+  scroll-snap-align: start;
+  position: relative;
 }
 a {
   color: #42b983;

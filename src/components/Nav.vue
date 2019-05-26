@@ -2,7 +2,7 @@
   <nav>
     <ul>
       <li>
-      <router-link to="/blogs">
+      <router-link to="/404">
         <h1>BLOGS</h1>
       </router-link>
       </li>
@@ -14,7 +14,7 @@
       </router-link>
       </li>
       <li>
-      <router-link to="/about">
+      <router-link to="/404">
         <h1>ABOUT</h1>
       </router-link>
       </li>
@@ -24,7 +24,6 @@
 
 <script>
 export default {
-  name: 'Nav',
   data() {
     return {
       name: 'Nick Wang Photography',
@@ -36,8 +35,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 nav {
+  position: fixed;
   width: 100%;
-  height: 10vw;
+  height: 15vh;
+  margin-top: 4vh;
+  z-index: 99;
 }
 #home {
   height: 100%;
@@ -62,14 +64,7 @@ nav ul li {
   display: flex;
 }
 h1 {
-  font-weight: normal;
   margin: auto;
-}
-a {
-  color: white;
-  text-decoration: none;
-  text-align: center;
-  justify-content: center;
-  display: flex;
+  font-weight: lighter;
 }
 </style>

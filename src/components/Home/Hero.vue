@@ -1,31 +1,53 @@
 <template>
-  <div class="container">
-    <h1>{{ section.title }}</h1>
-    <div>
-      <img v-bind:src="getImgUrl(section.source)"/>
+  <div class='container' :id='"hero"+this.section.id'>
+    <div v-on:click='print'>
+      <h1>{{ section.name.toUpperCase() }}</h1>
     </div>
+    <slot/>
+    <img :src='images[section.source]'/>
+    <scroll :href='this.nextSectionSelector' :scrollup='this.scrollup'/>
   </div>
 </template>
 
 <script>
+import Scroll from '../Scroll';
 
 export default {
-  props: ['section'],
-  data() {
-    return {
-      getImgUrl(section) {
-        const images = require.context('../../assets/', false, /\.jpg$/);
-        return images(`./${section.source}.jpg`);
-      },
-    };
+  components: { Scroll },
+  props: ['section', 'images', 'length'],
+  computed: {
+    nextSectionSelector() {
+      if (this.section.id !== this.length) return `#hero${this.section.id + 1}`;
+      return '#hero1';
+    },
+    scrollup() {
+      if (this.section.id === this.length) return true;
+      return false;
+    },
+  },
+  methods: {
+    print() {
+      console.log(this.scrollup);
+    },
   },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<!-- Add 'scoped' attribute to limit CSS to this component only -->
+<style scoped>
 .container{
-  background-color: blue;
+  overflow: hidden;
+}
+img {
+  height: 100vh;
+  width: 100%;
+  object-fit: cover;
+}
+h1 {
+  width: 100%;
+  top: 40%;
+  position: absolute;
+  font-weight: lighter;
 }
 </style>
 
